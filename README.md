@@ -1,4 +1,4 @@
-# pqueue 0.1.1-dev0.
+# pqueue 0.2.0-dev0.
 
 Linked-list implementation of a priority queue.
 
