@@ -14,5 +14,6 @@ Will look like
      static struct *z = pqueue_new();
       . . .
      pqueue_push(z, this_priority, this_ptr);
+     pqueue_pop(z, &priority, &ptr);
 
-It will not manage (free) any memory associated with this\_ptr.
+It will not manage (free) memory associated with this\_ptr.
