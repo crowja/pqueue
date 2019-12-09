@@ -15,7 +15,7 @@ INDENT_FLAGS = -TFILE -Tsize_t -Tuint8_t -Tuint16_t -Tuint32_t -Tuint64_t
 .PHONY: check check-examples vcheck scheck echeck indent stamp clean
 
 TESTS = t/test
-EXAMPLES = ex/ex_1
+EXAMPLES = ex/ex_1 ex/ex_2
 
 pqueue.o: pqueue.c pqueue.h
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) -o $@ pqueue.c
@@ -75,6 +75,7 @@ indent: stamp
 	@indent $(INDENT_FLAGS) pqueue.h
 	@indent $(INDENT_FLAGS) t/test.c
 	@indent $(INDENT_FLAGS) ex/ex_1.c
+	@indent $(INDENT_FLAGS) ex/ex_2.c
 
 stamp:
 	@bash stamper.bash pqueue.c
