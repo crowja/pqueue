@@ -1,7 +1,7 @@
 /**
  *  @file pqueue.c
  *  @version 0.1.1-dev0
- *  @date Mon Dec  9 09:26:07 CST 2019
+ *  @date Mon Dec  9 10:44:47 CST 2019
  *  @copyright %COPYRIGHT%
  *  @brief FIXME
  *  @details FIXME
@@ -92,8 +92,19 @@ pqueue_version(void)
    return "0.1.1-dev0";
 }
 
+static void
+print_all(struct pqueue *p)
+{
+   struct pqnode *tmp = p->head;
+   while (!_IS_NULL(tmp)) {
+      printf("%s\t", (char *) tmp->x);
+      tmp = tmp->next;
+   }
+   printf("\n");
+}
+
 /* TODO */
-void                                        /* FIXME */
+void
 pqueue_peek(struct pqueue *p, double *priority, void **x)
 {
    /* TODO also handle the case where p->head is NULL */
@@ -105,12 +116,18 @@ pqueue_peek(struct pqueue *p, double *priority, void **x)
 int
 pqueue_pop(struct pqueue *p, double *priority, void **x)
 {
-   /* TODO need to handle case of p->head == NULL */
+   struct pqnode *tmp;
 
+   if (_IS_NULL(p->head))
+      return 0;
+
+   tmp = p->head->next;
    *priority = p->head->priority;
    *x = p->head->x;
-   p->head = p->head->next;
-   /* pqnode_free(head); FIXME */
+   pqnode_free(p->head);
+   p->head = tmp;
+
+   return 1;
 }
 
 int
@@ -119,29 +136,46 @@ pqueue_push(struct pqueue *p, double priority, void *x)
    struct pqnode *n = pqnode_new(priority, x);
    struct pqnode *tmp;
 
-   if (_IS_NULL(p->head)) {                      /* empty list */
+   if (_IS_NULL(n))                              /* failed to allocate new node */
+      return 1;
+
+#if 1
+   printf("Given values                    %10.2f and x %s\n", priority, (char *) x);
+   printf("Just created node with priority %10.2f and x %s\n", n->priority,
+          (char *) n->x);
+#endif
+
+   if (_IS_NULL(p->head)) {                      /* list is empty */
       p->head = n;
+#if 1
+      print_all(p);
+#endif
       return 0;
    }
 
-   if (n->priority > p->head->priority) {        /* new list head */
+   if (n->priority > p->head->priority) {        /* insert n at list head */
       n->next = p->head;
       p->head = n;
+#if 1
+      print_all(p);
+#endif
       return 0;
    }
 
    /* Traverse the list */
    tmp = p->head;
-   while (!_IS_NULL(tmp)) {
-      if (n->priority > tmp->next->priority) {
-         /* n->priority is less than or equal to tmp->priority and greater than tmp->next->priority */
-         /* insert n between the current tmp and its tmp->next */
-         n->next = tmp->next;
-         tmp->next = n;
-      }
+   while (!_IS_NULL(tmp->next))
+      if (n->priority > tmp->next->priority)     /* insert n between current tmp and its tmp->next */
+         break;
       else
          tmp = tmp->next;
-   }
+
+   n->next = tmp->next;
+   tmp->next = n;
+
+#if 1
+   print_all(p);
+#endif
 
    return 0;
 }
