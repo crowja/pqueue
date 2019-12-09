@@ -2,14 +2,14 @@
 
 Linked-list implementation of a priority queue.
 
-*  pqueue\_new()
-*  pqueue\_free()
-*  pqueue\_is\_empty()
-*  pqueue\_peek()
-*  pqueue\_pop()
-*  pqueue\_push()
+*   pqueue\_new()
+*   pqueue\_free()
+*   pqueue\_is\_empty()
+*   pqueue\_peek()
+*   pqueue\_pop()
+*   pqueue\_push()
 
-Requires only pqueue.c and pqueue.h. 
+Requires only pqueue.c and pqueue.h.
 
      #include "pqueue.h"
       . . .
@@ -20,4 +20,7 @@ Requires only pqueue.c and pqueue.h.
       . . .
      pqueue_free(z);
 
-Pqueue does not manage/free memory associated with the pointers (e.g. this\_ptr) it's passed.
+Pqueue does not manage/free memory associated with the pointers it's passed,
+e.g. this\_ptr.
+
+jac
