@@ -1,7 +1,7 @@
 /**
  *  @file pqueue.c
  *  @version 0.1.1-dev0
- *  @date Mon Dec  9 09:11:14 CST 2019
+ *  @date Mon Dec  9 09:26:07 CST 2019
  *  @copyright %COPYRIGHT%
  *  @brief FIXME
  *  @details FIXME
@@ -133,8 +133,11 @@ pqueue_push(struct pqueue *p, double priority, void *x)
    /* Traverse the list */
    tmp = p->head;
    while (!_IS_NULL(tmp)) {
-      if (n->priority > tmp->priority) {
-         /* TODO insert n in front of tmp and break */
+      if (n->priority > tmp->next->priority) {
+         /* n->priority is less than or equal to tmp->priority and greater than tmp->next->priority */
+         /* insert n between the current tmp and its tmp->next */
+         n->next = tmp->next;
+         tmp->next = n;
       }
       else
          tmp = tmp->next;
