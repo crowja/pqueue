@@ -109,19 +109,21 @@ pqueue_pop(struct pqueue *p, double *priority, void **x)
    *priority = p->head->priority;
    *x = p->head->x;
    p->head = p->head->next;
-   pqnode_free(head);
+   pqnode_free(head); /* FIXME */
 }
 
 int
 pqueue_push(struct pqueue *p, double priority, void *x)
 {
    struct pqnode *n = pqnode_new(priority, x);
-   struct pqnode *start = p->head;
+   struct pqnode *start;
 
-   if (_IS_NULL(start)) {
+   if (_IS_NULL(p->head)) {
+      p->head = n;
+      return 0;
    }
 
-   if (priority < start->priority) {
+   if (n->priority < p->head->priority) {
    }
 
    return 0;
