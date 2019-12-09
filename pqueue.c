@@ -1,7 +1,7 @@
 /**
  *  @file pqueue.c
  *  @version 0.1.1-dev0
- *  @date Sun Dec  8 19:49:06 CST 2019
+ *  @date Sun Dec  8 21:55:23 CST 2019
  *  @copyright %COPYRIGHT%
  *  @brief FIXME
  *  @details FIXME
@@ -101,19 +101,19 @@ pqueue_peek(struct pqueue *p, double *priority, void **x)
    *x = p->head->x;
 }
 
-/* TODO */
-void                                        /* FIXME */
+int
 pqueue_pop(struct pqueue *p, double *priority, void **x)
 {
-   struct pqnode *n = p->head;
-   pqnode_free(n);                               /* FIXME */
+   /* TODO need to handle case of p->head == NULL */
+
+   *priority = p->head->priority;
+   *x = p->head->x;
+   p->head = p->head->next;
+
+   pqnode_free(head);
 }
 
-#if 0
-#endif
-
-/* TODO */
-void                                        /* FIXME */
+int
 pqueue_push(struct pqueue *p, double priority, void *x)
 {
    struct pqnode *n = pqnode_new(priority, x);
@@ -125,6 +125,7 @@ pqueue_push(struct pqueue *p, double priority, void *x)
    if (priority < start->priority) {
    }
 
+   return 0;
 }
 
 #undef  _IS_NULL
