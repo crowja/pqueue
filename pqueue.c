@@ -1,7 +1,7 @@
 /**
  *  @file pqueue.c
  *  @version 0.2.0-dev0
- *  @date Mon Dec  9 12:26:50 CST 2019
+ *  @date Mon Dec  9 13:21:07 CST 2019
  *  @copyright %COPYRIGHT%
  *  @brief FIXME
  *  @details FIXME
@@ -138,7 +138,7 @@ pqueue_push(struct pqueue *p, double priority, void *x)
    if (_IS_NULL(n))                              /* failed to allocate new node */
       return 1;
 
-#if 1
+#if 0
    printf("Given values                    %10.2f and x %s\n", priority, (char *) x);
    printf("Just created node with priority %10.2f and x %s\n", n->priority,
           (char *) n->x);
@@ -146,7 +146,7 @@ pqueue_push(struct pqueue *p, double priority, void *x)
 
    if (_IS_NULL(p->head)) {                      /* list is empty */
       p->head = n;
-#if 1
+#if 0
       print_all(p);
 #endif
       return 0;
@@ -155,7 +155,7 @@ pqueue_push(struct pqueue *p, double priority, void *x)
    if (n->priority > p->head->priority) {        /* insert n at list head */
       n->next = p->head;
       p->head = n;
-#if 1
+#if 0
       print_all(p);
 #endif
       return 0;
@@ -172,7 +172,7 @@ pqueue_push(struct pqueue *p, double priority, void *x)
    n->next = tmp->next;
    tmp->next = n;
 
-#if 1
+#if 0
    print_all(p);
 #endif
 
