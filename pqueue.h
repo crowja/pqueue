@@ -1,7 +1,7 @@
 /**
  *  @file pqueue.h
  *  @version 0.1.1-dev0
- *  @date Sun Dec  8 19:49:06 CST 2019
+ *  @date Sun Dec  8 21:55:23 CST 2019
  *  @copyright %COPYRIGHT%
  *  @brief FIXME
  *  @details FIXME
@@ -47,8 +47,7 @@ int         pqueue_init(struct pqueue *p, void *x);
 const char *pqueue_version(void);
 
 void        pqueue_peek(struct pqueue *p, double *priority, void **x);
-void        pqueue_push(struct pqueue *p, double priority, void *x);
-
-
+int         pqueue_pop(struct pqueue *p, double *priority, void **x);
+int         pqueue_push(struct pqueue *p, double priority, void *x);
 
 #endif
