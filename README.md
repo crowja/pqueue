@@ -11,7 +11,7 @@ Intend to support (at least):
 
 Will look like
 
-     static struct *z = pqueue_new();
+     static struct pqueue *z = pqueue_new();
       . . .
      pqueue_push(z, this_priority, this_ptr);
      pqueue_pop(z, &priority, &ptr);
