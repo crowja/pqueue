@@ -1,7 +1,7 @@
 /**
  *  @file pqueue.h
  *  @version 0.2.0-dev0
- *  @date Mon Dec  9 10:44:47 CST 2019
+ *  @date Mon Dec  9 12:26:50 CST 2019
  *  @copyright %COPYRIGHT%
  *  @brief FIXME
  *  @details FIXME
@@ -32,21 +32,13 @@ struct pqueue *pqueue_new(void);
 void        pqueue_free(struct pqueue *p);
 
 /**
- *  @brief Initialize a pqueue object.
- *  @details FIXME longer description here ...
- *  @param[in,out] p Pointer to a pqueue object
- *  @param[in] x FIXME
-    @returns FIXME
- */
-int         pqueue_init(struct pqueue *p, void *x);
-
-/**
  *  @brief Return the version of this package.
  *  @returns Version string.
  */
 const char *pqueue_version(void);
 
-void        pqueue_peek(struct pqueue *p, double *priority, void **x);
+int         pqueue_is_empty(struct pqueue *p);
+int         pqueue_peek(struct pqueue *p, double *priority, void **x);
 int         pqueue_pop(struct pqueue *p, double *priority, void **x);
 int         pqueue_push(struct pqueue *p, double priority, void *x);
 

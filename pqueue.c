@@ -1,15 +1,14 @@
 /**
  *  @file pqueue.c
  *  @version 0.2.0-dev0
- *  @date Mon Dec  9 10:44:47 CST 2019
+ *  @date Mon Dec  9 12:26:50 CST 2019
  *  @copyright %COPYRIGHT%
  *  @brief FIXME
  *  @details FIXME
  */
 
 #include <stdlib.h>
-#include <stdio.h>                               /* FIXME */
-#include <string.h>                              /* FIXME */
+#include <stdio.h>
 #include "pqueue.h"
 
 #ifdef  _IS_NULL
@@ -72,18 +71,7 @@ pqueue_new(void)
 void
 pqueue_free(struct pqueue *p)
 {
-   /* Do some magic here ... */
    _FREE(p);
-}
-
-int
-pqueue_init(struct pqueue *p, void *x)
-{
-
-   /* Do some magic here ... */
-   p->x = x;                                     /* FIXME */
-
-   return 0;
 }
 
 const char *
@@ -96,38 +84,49 @@ static void
 print_all(struct pqueue *p)
 {
    struct pqnode *tmp = p->head;
+   printf("Entire list:");
    while (!_IS_NULL(tmp)) {
-      printf("%s\t", (char *) tmp->x);
+      printf("\t%s", (char *) tmp->x);
       tmp = tmp->next;
    }
    printf("\n");
 }
 
-/* TODO */
-void
+int
+pqueue_is_empty(struct pqueue *p)
+{
+   return _IS_NULL(p->head) ? 1 : 0;
+}
+
+int
 pqueue_peek(struct pqueue *p, double *priority, void **x)
 {
-   /* TODO also handle the case where p->head is NULL */
+   if (_IS_NULL(p->head))
+      return 0;
 
    *priority = p->head->priority;
    *x = p->head->x;
+
+   printf("DEBUG inside pqueue_peek x: %s\n", (char *) *x);
+
+   return 1;
 }
 
 int
 pqueue_pop(struct pqueue *p, double *priority, void **x)
 {
-   struct pqnode *tmp;
-
+   /* TODO make sure this is working right. Examples ex_1.c ought to be reporting horse. */
    if (_IS_NULL(p->head))
       return 0;
 
-   tmp = p->head->next;
-   *priority = p->head->priority;
-   *x = p->head->x;
-   pqnode_free(p->head);
-   p->head = tmp;
-
-   return 1;
+   else {
+      struct pqnode *tmp = p->head->next;
+      *priority = p->head->priority;
+      *x = p->head->x;
+      pqnode_free(p->head);
+      p->head = tmp;
+      return 1;
+   }
 }
 
 int
