@@ -1,7 +1,7 @@
 /**
  *  @file pqueue.c
  *  @version 0.1.1-dev0
- *  @date Sun Dec  8 21:55:23 CST 2019
+ *  @date Mon Dec  9 09:11:14 CST 2019
  *  @copyright %COPYRIGHT%
  *  @brief FIXME
  *  @details FIXME
@@ -39,6 +39,7 @@ pqnode_new(double priority, void *x)
 
    tp->priority = priority;
    tp->x = x;
+   tp->next = NULL;
 
    return tp;
 }
@@ -109,21 +110,34 @@ pqueue_pop(struct pqueue *p, double *priority, void **x)
    *priority = p->head->priority;
    *x = p->head->x;
    p->head = p->head->next;
-   pqnode_free(head); /* FIXME */
+   /* pqnode_free(head); FIXME */
 }
 
 int
 pqueue_push(struct pqueue *p, double priority, void *x)
 {
    struct pqnode *n = pqnode_new(priority, x);
-   struct pqnode *start;
+   struct pqnode *tmp;
 
-   if (_IS_NULL(p->head)) {
+   if (_IS_NULL(p->head)) {                      /* empty list */
       p->head = n;
       return 0;
    }
 
-   if (n->priority < p->head->priority) {
+   if (n->priority > p->head->priority) {        /* new list head */
+      n->next = p->head;
+      p->head = n;
+      return 0;
+   }
+
+   /* Traverse the list */
+   tmp = p->head;
+   while (!_IS_NULL(tmp)) {
+      if (n->priority > tmp->priority) {
+         /* TODO insert n in front of tmp and break */
+      }
+      else
+         tmp = tmp->next;
    }
 
    return 0;
