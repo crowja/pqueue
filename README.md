@@ -1,2 +1,2 @@
-# pqueue
-C-scrap class providing a priority queue.
+# pqueue 0.0.0.
+
