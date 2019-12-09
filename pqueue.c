@@ -109,7 +109,6 @@ pqueue_pop(struct pqueue *p, double *priority, void **x)
    *priority = p->head->priority;
    *x = p->head->x;
    p->head = p->head->next;
-
    pqnode_free(head);
 }
 
