@@ -1,6 +1,6 @@
 /**
  *  @file pqueue.c
- *  @version 0.1.0-dev0
+ *  @version 0.1.0
  *  @date Sun Dec  8 19:49:06 CST 2019
  *  @copyright %COPYRIGHT%
  *  @brief FIXME
@@ -88,7 +88,7 @@ pqueue_init(struct pqueue *p, void *x)
 const char *
 pqueue_version(void)
 {
-   return "0.1.0-dev0";
+   return "0.1.0";
 }
 
 /* TODO */
