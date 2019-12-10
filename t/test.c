@@ -170,6 +170,22 @@ test_push_pop_2(void)
    pqueue_free(z);
 }
 
+static void
+test_free(void)
+{
+   struct pqueue *z;
+
+   _printf_test_name("test_free", "pqueue_free");
+
+   z = pqueue_new();
+
+   pqueue_push(z, 1.0, "cat");
+   pqueue_push(z, 2.0, "mouse");
+   pqueue_push(z, 3.0, "dog");
+
+   pqueue_free(z);
+}
+
 #if 0                                            /* 14 yy */
 static void
 test_stub(void)
@@ -196,6 +212,7 @@ main(void)
    RUN(test_constr);
    RUN(test_push_pop_1);
    RUN(test_push_pop_2);
+   RUN(test_free);
 
    return TEST_REPORT();
 }
