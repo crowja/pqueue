@@ -1,7 +1,7 @@
 /**
  *  @file pqueue.c
  *  @version 0.2.2-dev0
- *  @date Mon Dec  9 19:57:22 CST 2019
+ *  @date Mon Dec  9 21:00:56 CST 2019
  *  @copyright %COPYRIGHT%
  *  @brief FIXME
  *  @details FIXME
@@ -30,9 +30,8 @@ struct pqnode {
 static struct pqnode *
 pqnode_new(double priority, void *x)
 {
-   struct pqnode *tp;
+   struct pqnode *tp = (struct pqnode *) malloc(sizeof(struct pqnode));
 
-   tp = (struct pqnode *) malloc(sizeof(struct pqnode));
    if (_IS_NULL(tp))
       return NULL;
 
@@ -80,20 +79,6 @@ pqueue_version(void)
    return "0.2.2-dev0";
 }
 
-#ifdef DEBUG
-static void
-print_all(struct pqueue *p)
-{
-   struct pqnode *tmp = p->head;
-   printf("Entire list:");
-   while (!_IS_NULL(tmp)) {
-      printf("\t%s", (char *) tmp->x);
-      tmp = tmp->next;
-   }
-   printf("\n");
-}
-#endif
-
 int
 pqueue_is_empty(struct pqueue *p)
 {
@@ -108,10 +93,6 @@ pqueue_peek(struct pqueue *p, double *priority, void **x)
 
    *priority = p->head->priority;
    *x = p->head->x;
-
-#ifdef DEBUG
-   printf("DEBUG inside pqueue_peek x: %s\n", (char *) *x);
-#endif
 
    return 1;
 }
