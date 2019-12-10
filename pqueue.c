@@ -1,7 +1,7 @@
 /**
  *  @file pqueue.c
  *  @version 0.2.1-dev0
- *  @date Mon Dec  9 13:21:07 CST 2019
+ *  @date Mon Dec  9 18:27:40 CST 2019
  *  @copyright %COPYRIGHT%
  *  @brief FIXME
  *  @details FIXME
@@ -80,6 +80,7 @@ pqueue_version(void)
    return "0.2.1-dev0";
 }
 
+#ifdef DEBUG
 static void
 print_all(struct pqueue *p)
 {
@@ -91,6 +92,7 @@ print_all(struct pqueue *p)
    }
    printf("\n");
 }
+#endif
 
 int
 pqueue_is_empty(struct pqueue *p)
@@ -107,7 +109,9 @@ pqueue_peek(struct pqueue *p, double *priority, void **x)
    *priority = p->head->priority;
    *x = p->head->x;
 
+#ifdef DEBUG
    printf("DEBUG inside pqueue_peek x: %s\n", (char *) *x);
+#endif
 
    return 1;
 }
@@ -115,7 +119,6 @@ pqueue_peek(struct pqueue *p, double *priority, void **x)
 int
 pqueue_pop(struct pqueue *p, double *priority, void **x)
 {
-   /* TODO make sure this is working right. Examples ex_1.c ought to be reporting horse. */
    if (_IS_NULL(p->head))
       return 0;
 
@@ -138,7 +141,7 @@ pqueue_push(struct pqueue *p, double priority, void *x)
    if (_IS_NULL(n))                              /* failed to allocate new node */
       return 1;
 
-#if 0
+#ifdef DEBUG
    printf("Given values                    %10.2f and x %s\n", priority, (char *) x);
    printf("Just created node with priority %10.2f and x %s\n", n->priority,
           (char *) n->x);
@@ -146,7 +149,7 @@ pqueue_push(struct pqueue *p, double priority, void *x)
 
    if (_IS_NULL(p->head)) {                      /* list is empty */
       p->head = n;
-#if 0
+#ifdef DEBUG
       print_all(p);
 #endif
       return 0;
@@ -155,7 +158,7 @@ pqueue_push(struct pqueue *p, double priority, void *x)
    if (n->priority > p->head->priority) {        /* insert n at list head */
       n->next = p->head;
       p->head = n;
-#if 0
+#ifdef DEBUG
       print_all(p);
 #endif
       return 0;
@@ -172,7 +175,7 @@ pqueue_push(struct pqueue *p, double priority, void *x)
    n->next = tmp->next;
    tmp->next = n;
 
-#if 0
+#ifdef DEBUG
    print_all(p);
 #endif
 
