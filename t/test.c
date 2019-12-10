@@ -66,7 +66,7 @@ test_constr(void)
 }
 
 static void
-test_push_pop(void)
+test_push_pop_1(void)
 {
    unsigned    i;
    unsigned    n = 1000;
@@ -75,7 +75,7 @@ test_push_pop(void)
    double     *xp;
    struct pqueue *z;
 
-   _printf_test_name("test_push_pop", "pqueue_push, pqueue_pop");
+   _printf_test_name("test_push_pop_1", "pqueue_push, pqueue_pop");
 
    z = pqueue_new();
 
@@ -95,6 +95,77 @@ test_push_pop(void)
    ASSERT_EQUALS(0, pqueue_pop(z, &priority, (void **) &xp));
    ASSERT_EQUALS(0, pqueue_pop(z, &priority, (void **) &xp));
    ASSERT_EQUALS(0, pqueue_pop(z, &priority, (void **) &xp));
+
+   pqueue_free(z);
+}
+
+static void
+test_push_pop_2(void)
+{
+   char       *x;
+   double      priority;
+   struct pqueue *z;
+
+   _printf_test_name("test_push_pop_2", "pqueue_push, pqueue_pop");
+
+   z = pqueue_new();
+   pqueue_push(z, 1.0, "ant");
+   pqueue_push(z, 4.0, "cat");
+   pqueue_push(z, 5.0, "cow");
+   pqueue_push(z, 8.0, "fox");
+   pqueue_push(z, 13.0, "pig");
+   pqueue_push(z, 6.0, "crow");
+   pqueue_push(z, 10.0, "goose");
+   pqueue_push(z, 12.0, "horse");
+   pqueue_push(z, 14.0, "skunk");
+   pqueue_push(z, 2.0, "beaver");
+   pqueue_push(z, 3.0, "bobcat");
+   pqueue_push(z, 16.0, "zebra");
+   pqueue_push(z, 15.0, "turkey");
+   pqueue_push(z, 11.0, "hamster");
+   pqueue_push(z, 9.0, "giraffe");
+   pqueue_push(z, 7.0, "elephant");
+   pqueue_push(z, 17.0, "woodchuck");
+   /* and repeat */
+   pqueue_push(z, 17.0, "woodchuck");
+
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("woodchuck", x);
+   /* and repeat */
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("woodchuck", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("zebra", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("turkey", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("skunk", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("pig", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("horse", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("hamster", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("goose", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("giraffe", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("fox", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("elephant", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("crow", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("cow", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("cat", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("bobcat", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("beaver", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("ant", x);
 
    pqueue_free(z);
 }
@@ -123,7 +194,8 @@ main(void)
    printf("%s\n", pqueue_version());
 
    RUN(test_constr);
-   RUN(test_push_pop);
+   RUN(test_push_pop_1);
+   RUN(test_push_pop_2);
 
    return TEST_REPORT();
 }
