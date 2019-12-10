@@ -30,7 +30,7 @@ main(void)
       }
    }
 
-   while (rc = pqueue_pop(z, &priority, (void **) &x)) {
+   while ((rc = pqueue_pop(z, &priority, (void **) &x))) {
       if (rc) {
 #if 0
          printf("%10.2f -- %s\n", priority, x);
