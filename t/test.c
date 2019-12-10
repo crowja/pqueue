@@ -65,7 +65,128 @@ test_constr(void)
    ASSERT_EQUALS(NULL, z);
 }
 
-#if 0                                            /* 14 yy */
+static void
+test_push_pop_1(void)
+{
+   unsigned    i;
+   unsigned    n = 1000;
+   int         rc;
+   double      priority;
+   double     *xp;
+   struct pqueue *z;
+
+   _printf_test_name("test_push_pop_1", "pqueue_push, pqueue_pop");
+
+   z = pqueue_new();
+
+   for (i = 0; i < n; i++) {
+      priority = 100 * sin(0.5 * i);
+      xp = malloc(sizeof(double));
+      *xp = (double) i;
+      ASSERT_EQUALS(0, pqueue_push(z, priority, (void *) xp));
+   }
+
+   while ((rc = pqueue_pop(z, &priority, (void **) &xp))) {
+      free(xp);
+   }
+
+   /* A few extra pops */
+   ASSERT_EQUALS(0, pqueue_pop(z, &priority, (void **) &xp));
+   ASSERT_EQUALS(0, pqueue_pop(z, &priority, (void **) &xp));
+   ASSERT_EQUALS(0, pqueue_pop(z, &priority, (void **) &xp));
+   ASSERT_EQUALS(0, pqueue_pop(z, &priority, (void **) &xp));
+
+   pqueue_free(&z);
+}
+
+static void
+test_push_pop_2(void)
+{
+   char       *x;
+   double      priority;
+   struct pqueue *z;
+
+   _printf_test_name("test_push_pop_2", "pqueue_push, pqueue_pop");
+
+   z = pqueue_new();
+   pqueue_push(z, 1.0, "ant");
+   pqueue_push(z, 4.0, "cat");
+   pqueue_push(z, 5.0, "cow");
+   pqueue_push(z, 8.0, "fox");
+   pqueue_push(z, 13.0, "pig");
+   pqueue_push(z, 6.0, "crow");
+   pqueue_push(z, 10.0, "goose");
+   pqueue_push(z, 12.0, "horse");
+   pqueue_push(z, 14.0, "skunk");
+   pqueue_push(z, 2.0, "beaver");
+   pqueue_push(z, 3.0, "bobcat");
+   pqueue_push(z, 16.0, "zebra");
+   pqueue_push(z, 15.0, "turkey");
+   pqueue_push(z, 11.0, "hamster");
+   pqueue_push(z, 9.0, "giraffe");
+   pqueue_push(z, 7.0, "elephant");
+   pqueue_push(z, 17.0, "woodchuck");
+   /* and repeat */
+   pqueue_push(z, 17.0, "woodchuck");
+
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("woodchuck", x);
+   /* and repeat */
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("woodchuck", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("zebra", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("turkey", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("skunk", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("pig", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("horse", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("hamster", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("goose", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("giraffe", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("fox", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("elephant", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("crow", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("cow", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("cat", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("bobcat", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("beaver", x);
+   pqueue_pop(z, &priority, (void **) &x);
+   ASSERT_STRING_EQUALS("ant", x);
+
+   pqueue_free(&z);
+}
+
+static void
+test_free(void)
+{
+   struct pqueue *z;
+
+   _printf_test_name("test_free", "pqueue_free");
+
+   z = pqueue_new();
+
+   pqueue_push(z, 1.0, "cat");
+   pqueue_push(z, 2.0, "mouse");
+   pqueue_push(z, 3.0, "dog");
+
+   pqueue_free(&z);
+}
+
+#if 0                                            /* 15 yy */
 static void
 test_stub(void)
 {
@@ -78,7 +199,8 @@ test_stub(void)
    ASSERT("Constructor test, pt 1", z);
    ASSERT("Here's a test ...", _two_doubles_equal(x, 1.23));
 
-   pqueue_free(z);
+   pqueue_free(&z);
+   ASSERT_EQUALS(NUL, z);
 }
 #endif
 
@@ -89,6 +211,9 @@ main(void)
    printf("%s\n", pqueue_version());
 
    RUN(test_constr);
+   RUN(test_push_pop_1);
+   RUN(test_push_pop_2);
+   RUN(test_free);
 
    return TEST_REPORT();
 }

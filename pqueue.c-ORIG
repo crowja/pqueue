@@ -1,12 +1,7 @@
 /**
  *  @file pqueue.c
-<<<<<<< HEAD
- *  @version 0.2.1-dev0
- *  @date Tue Dec 10 13:18:55 CST 2019
-=======
  *  @version 0.2.2
- *  @date Tue Dec 10 13:18:55 CST 2019
->>>>>>> d3e6f32aafe6e93d90a555250cd48ee066ff7d58
+ *  @date Mon Dec  9 18:27:40 CST 2019
  *  @copyright %COPYRIGHT%
  *  @brief FIXME
  *  @details FIXME
@@ -35,8 +30,9 @@ struct pqnode {
 static struct pqnode *
 pqnode_new(double priority, void *x)
 {
-   struct pqnode *tp = (struct pqnode *) malloc(sizeof(struct pqnode));
+   struct pqnode *tp;
 
+   tp = (struct pqnode *) malloc(sizeof(struct pqnode));
    if (_IS_NULL(tp))
       return NULL;
 
@@ -73,17 +69,9 @@ pqueue_new(void)
 }
 
 void
-pqueue_free(struct pqueue **pp)
+pqueue_free(struct pqueue *p)
 {
-   struct pqnode *tmp;
-
-   while (!_IS_NULL((*pp)->head)) {
-      tmp = (*pp)->head->next;
-      pqnode_free((*pp)->head);
-      (*pp)->head = tmp;
-   }
-
-   _FREE(*pp);
+   _FREE(p);
 }
 
 const char *
@@ -91,6 +79,20 @@ pqueue_version(void)
 {
    return "0.2.2";
 }
+
+#ifdef DEBUG
+static void
+print_all(struct pqueue *p)
+{
+   struct pqnode *tmp = p->head;
+   printf("Entire list:");
+   while (!_IS_NULL(tmp)) {
+      printf("\t%s", (char *) tmp->x);
+      tmp = tmp->next;
+   }
+   printf("\n");
+}
+#endif
 
 int
 pqueue_is_empty(struct pqueue *p)
@@ -106,6 +108,10 @@ pqueue_peek(struct pqueue *p, double *priority, void **x)
 
    *priority = p->head->priority;
    *x = p->head->x;
+
+#ifdef DEBUG
+   printf("DEBUG inside pqueue_peek x: %s\n", (char *) *x);
+#endif
 
    return 1;
 }
@@ -130,29 +136,48 @@ int
 pqueue_push(struct pqueue *p, double priority, void *x)
 {
    struct pqnode *n = pqnode_new(priority, x);
+   struct pqnode *tmp;
 
    if (_IS_NULL(n))                              /* failed to allocate new node */
       return 1;
 
-   if (_IS_NULL(p->head))                        /* list is empty */
-      p->head = n;
+#ifdef DEBUG
+   printf("Given values                    %10.2f and x %s\n", priority, (char *) x);
+   printf("Just created node with priority %10.2f and x %s\n", n->priority,
+          (char *) n->x);
+#endif
 
-   else if (n->priority > p->head->priority) {   /* insert n at list head */
+   if (_IS_NULL(p->head)) {                      /* list is empty */
+      p->head = n;
+#ifdef DEBUG
+      print_all(p);
+#endif
+      return 0;
+   }
+
+   if (n->priority > p->head->priority) {        /* insert n at list head */
       n->next = p->head;
       p->head = n;
+#ifdef DEBUG
+      print_all(p);
+#endif
+      return 0;
    }
 
-   else {                                        /* traverse the list */
-      struct pqnode *tmp = p->head;
-      while (!_IS_NULL(tmp->next))
-         if (n->priority > tmp->next->priority)  /* insert n between current tmp and its tmp->next */
-            break;
-         else
-            tmp = tmp->next;
+   /* Traverse the list */
+   tmp = p->head;
+   while (!_IS_NULL(tmp->next))
+      if (n->priority > tmp->next->priority)     /* insert n between current tmp and its tmp->next */
+         break;
+      else
+         tmp = tmp->next;
 
-      n->next = tmp->next;
-      tmp->next = n;
-   }
+   n->next = tmp->next;
+   tmp->next = n;
+
+#ifdef DEBUG
+   print_all(p);
+#endif
 
    return 0;
 }

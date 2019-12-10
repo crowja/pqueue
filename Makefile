@@ -4,9 +4,10 @@ GCC_STRICT_FLAGS = -pedantic -ansi -W -Wall -Wstrict-prototypes -Wmissing-protot
 GCC_SANITIZE_FLAGS = -fsanitize=address -fsanitize=undefined -fno-omit-frame-pointer
 OTHER_SOURCE =
 OTHER_INCLUDE = -I.
-CPPFLAGS = -I. $(OTHER_INCLUDE) -DDEBUG
+CPPFLAGS = -I. $(OTHER_INCLUDE)
+#CPPFLAGS = -I. $(OTHER_INCLUDE) -DDEBUG
 CFLAGS = $(GCC_STRICT_FLAGS) 
-LDFLAGS =
+LDFLAGS = -lm
 LDFLAGS_EFENCE = -L/usr/local/lib -lefence $(LDFLAGS)
 #VALGRIND_FLAGS = --verbose --leak-check=full --undef-value-errors=yes --track-origins=yes
 VALGRIND_FLAGS =  --leak-check=summary --undef-value-errors=yes --track-origins=yes
