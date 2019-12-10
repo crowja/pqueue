@@ -65,6 +65,40 @@ test_constr(void)
 
 }
 
+static void
+test_push_pop(void)
+{
+   unsigned    i;
+   unsigned    n = 1000;
+   int         rc;
+   double      priority;
+   double     *xp;
+   struct pqueue *z;
+
+   _printf_test_name("test_push_pop", "pqueue_push, pqueue_pop");
+
+   z = pqueue_new();
+
+   for (i = 0; i < n; i++) {
+      priority = 100 * sin(0.5 * i);
+      xp = malloc(sizeof(double));
+      *xp = (double) i;
+      ASSERT_EQUALS(0, pqueue_push(z, priority, (void *) xp));
+   }
+
+   while (rc = pqueue_pop(z, &priority, (void **) &xp)) {
+      free(xp);
+   }
+
+   /* A few extra pops */
+   ASSERT_EQUALS(0, pqueue_pop(z, &priority, (void **) &xp));
+   ASSERT_EQUALS(0, pqueue_pop(z, &priority, (void **) &xp));
+   ASSERT_EQUALS(0, pqueue_pop(z, &priority, (void **) &xp));
+   ASSERT_EQUALS(0, pqueue_pop(z, &priority, (void **) &xp));
+
+   pqueue_free(z);
+}
+
 #if 0                                            /* 14 yy */
 static void
 test_stub(void)
@@ -89,6 +123,7 @@ main(void)
    printf("%s\n", pqueue_version());
 
    RUN(test_constr);
+   RUN(test_push_pop);
 
    return TEST_REPORT();
 }
