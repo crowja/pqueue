@@ -1,7 +1,7 @@
 /**
  *  @file pqueue.c
  *  @version 0.2.1
- *  @date Mon Dec  9 18:27:40 CST 2019
+ *  @date Mon Dec  9 19:57:22 CST 2019
  *  @copyright %COPYRIGHT%
  *  @brief FIXME
  *  @details FIXME
@@ -136,48 +136,29 @@ int
 pqueue_push(struct pqueue *p, double priority, void *x)
 {
    struct pqnode *n = pqnode_new(priority, x);
-   struct pqnode *tmp;
 
    if (_IS_NULL(n))                              /* failed to allocate new node */
       return 1;
 
-#ifdef DEBUG
-   printf("Given values                    %10.2f and x %s\n", priority, (char *) x);
-   printf("Just created node with priority %10.2f and x %s\n", n->priority,
-          (char *) n->x);
-#endif
-
-   if (_IS_NULL(p->head)) {                      /* list is empty */
+   if (_IS_NULL(p->head))                        /* list is empty */
       p->head = n;
-#ifdef DEBUG
-      print_all(p);
-#endif
-      return 0;
-   }
 
-   if (n->priority > p->head->priority) {        /* insert n at list head */
+   else if (n->priority > p->head->priority) {   /* insert n at list head */
       n->next = p->head;
       p->head = n;
-#ifdef DEBUG
-      print_all(p);
-#endif
-      return 0;
    }
 
-   /* Traverse the list */
-   tmp = p->head;
-   while (!_IS_NULL(tmp->next))
-      if (n->priority > tmp->next->priority)     /* insert n between current tmp and its tmp->next */
-         break;
-      else
-         tmp = tmp->next;
+   else {                                        /* traverse the list */
+      struct pqnode *tmp = p->head;
+      while (!_IS_NULL(tmp->next))
+         if (n->priority > tmp->next->priority)  /* insert n between current tmp and its tmp->next */
+            break;
+         else
+            tmp = tmp->next;
 
-   n->next = tmp->next;
-   tmp->next = n;
-
-#ifdef DEBUG
-   print_all(p);
-#endif
+      n->next = tmp->next;
+      tmp->next = n;
+   }
 
    return 0;
 }
