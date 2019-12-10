@@ -1,7 +1,7 @@
 /**
  *  @file pqueue.c
  *  @version 0.2.1-dev0
- *  @date Mon Dec  9 13:21:07 CST 2019
+ *  @date Tue Dec 10 13:11:45 CST 2019
  *  @copyright %COPYRIGHT%
  *  @brief FIXME
  *  @details FIXME
@@ -69,9 +69,10 @@ pqueue_new(void)
 }
 
 void
-pqueue_free(struct pqueue *p)
+pqueue_free(struct pqueue **pp)
 {
-   _FREE(p);
+   _FREE(*pp);
+   *pp = NULL;
 }
 
 const char *

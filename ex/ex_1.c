@@ -48,7 +48,7 @@ main(void)
    pqueue_pop(z, &priority, (void **) &x);
    printf("Empty? %d should be 1\n", pqueue_is_empty(z));
 
-   pqueue_free(z);
+   pqueue_free(&z);
 
    return 0;
 }

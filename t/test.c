@@ -61,8 +61,8 @@ test_constr(void)
 
    z = pqueue_new();
    ASSERT("Constructor test", z);
-   pqueue_free(z);
-
+   pqueue_free(&z);
+   ASSERT_EQUALS(NULL, z);
 }
 
 #if 0                                            /* 14 yy */

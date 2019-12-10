@@ -1,7 +1,7 @@
 /**
  *  @file pqueue.h
  *  @version 0.2.1-dev0
- *  @date Mon Dec  9 13:21:07 CST 2019
+ *  @date Tue Dec 10 13:11:45 CST 2019
  *  @copyright %COPYRIGHT%
  *  @brief FIXME
  *  @details FIXME
@@ -27,9 +27,9 @@ struct pqueue *pqueue_new(void);
 /**
  *  @brief Destructor.
  *  @details Clean up and free a pqueue structure.
- *  @param[in, out] p.
+ *  @param[in, out] pp.
  */
-void        pqueue_free(struct pqueue *p);
+void        pqueue_free(struct pqueue **pp);
 
 /**
  *  @brief Return the version of this package.

@@ -35,7 +35,7 @@ main(void)
       }
    }
 
-   pqueue_free(z);
+   pqueue_free(&z);
 
    return 0;
 }
