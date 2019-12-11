@@ -84,6 +84,7 @@ pqueue_free(struct pqueue **pp)
    }
 
    _FREE(*pp);
+   *pp = NULL;
 }
 
 const char *
