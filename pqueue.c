@@ -1,12 +1,7 @@
 /**
  *  @file pqueue.c
-<<<<<<< HEAD
- *  @version 0.2.1-dev0
- *  @date Tue Dec 10 13:18:55 CST 2019
-=======
  *  @version 0.2.2
  *  @date Tue Dec 10 13:18:55 CST 2019
->>>>>>> d3e6f32aafe6e93d90a555250cd48ee066ff7d58
  *  @copyright %COPYRIGHT%
  *  @brief FIXME
  *  @details FIXME
@@ -80,7 +75,7 @@ pqueue_free(struct pqueue **pp)
 
    while (!_IS_NULL((*pp)->head)) {
       tmp = (*pp)->head->next;
-      pqnode_free((*pp)->head);
+      pqnode_free(&((*pp)->head));
       (*pp)->head = tmp;
    }
 
