@@ -48,9 +48,10 @@ pqnode_new(double priority, void *x)
 }
 
 static void
-pqnode_free(struct pqnode *p)
+pqnode_free(struct pqnode **pp)
 {
-   _FREE(p);
+   _FREE(*pp);
+   *pp = NULL;
 }
 
 struct pqueue {
@@ -121,7 +122,7 @@ pqueue_pop(struct pqueue *p, double *priority, void **x)
       struct pqnode *tmp = p->head->next;
       *priority = p->head->priority;
       *x = p->head->x;
-      pqnode_free(p->head);
+      pqnode_free(&(p->head));
       p->head = tmp;
       return 1;
    }
