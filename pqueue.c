@@ -1,6 +1,6 @@
 /**
  *  @file pqueue.c
- *  @version 0.2.2
+ *  @version 0.2.3-dev0
  *  @date Thu Dec 19 13:55:03 CST 2019
  *  @copyright %COPYRIGHT%
  *  @brief FIXME
@@ -85,7 +85,7 @@ pqueue_free(struct pqueue **pp)
 const char *
 pqueue_version(void)
 {
-   return "0.2.2";
+   return "0.2.3-dev0";
 }
 
 int
