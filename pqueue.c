@@ -1,7 +1,7 @@
 /**
  *  @file pqueue.c
  *  @version 0.2.2
- *  @date Tue Dec 10 13:18:55 CST 2019
+ *  @date Thu Dec 19 13:55:03 CST 2019
  *  @copyright %COPYRIGHT%
  *  @brief FIXME
  *  @details FIXME
@@ -71,10 +71,9 @@ pqueue_new(void)
 void
 pqueue_free(struct pqueue **pp)
 {
-   struct pqnode *tmp;
 
    while (!_IS_NULL((*pp)->head)) {
-      tmp = (*pp)->head->next;
+      struct pqnode *tmp = (*pp)->head->next;
       pqnode_free(&((*pp)->head));
       (*pp)->head = tmp;
    }
