@@ -18,7 +18,7 @@ Requires only pqueue.c and pqueue.h.
      pqueue_push(z, this_priority, this_ptr);
      pqueue_pop(z, &priority, &ptr);
       . . .
-     pqueue_free(z);
+     pqueue_free(&z);
 
 Pqueue does not manage/free memory associated with the pointers it's passed,
 e.g. this\_ptr.
