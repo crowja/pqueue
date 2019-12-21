@@ -1,6 +1,6 @@
 /**
  *  @file pqueue.h
- *  @version 0.2.3-dev0
+ *  @version 0.3.0-dev0
  *  @date Fri Dec 20 18:50:12 CST 2019
  *  @copyright %COPYRIGHT%
  *  @brief Provides a priority queue.
