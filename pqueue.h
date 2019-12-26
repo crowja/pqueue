@@ -1,7 +1,7 @@
 /**
  *  @file pqueue.h
  *  @version 0.3.0-dev0
- *  @date Fri Dec 20 18:50:12 CST 2019
+ *  @date Thu Dec 26 13:10:39 CST 2019
  *  @copyright %COPYRIGHT%
  *  @brief Provides a priority queue.
  */
@@ -61,7 +61,7 @@ int         pqueue_peek(struct pqueue *p, double *priority, void **x);
  *  @details Pop the queue, returning the next priority and value.
  *  @param[out] priority. Next priority.
  *  @param[out] x. Next value.
- *  @returns 0 if there is nothing to pop, 1 otherwise.
+ *  @returns 0 if nothing was popped, 1 otherwise.
  */
 int         pqueue_pop(struct pqueue *p, double *priority, void **x);
 
