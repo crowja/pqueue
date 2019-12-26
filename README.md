@@ -56,4 +56,13 @@ e.g. this\_ptr.
     }
 ```
 
+Running this will produce the output
+
+    Empty queue? 0
+    Popped dog with priority 90.000000
+    Popped pig with priority 75.000000
+    Popped cat with priority 50.000000
+    Empty queue? 1
+
+
 jac
