@@ -186,6 +186,76 @@ test_free(void)
    pqueue_free(&z);
 }
 
+static void
+test_pop_min(void)
+{
+   char       *animal;
+   double      priority;
+   struct pqueue *z;
+   _printf_test_name("test_pop_min", "pqueue_pop_min");
+
+   z = pqueue_new();
+
+   pqueue_push(z, 100, "ant");
+   pqueue_push(z, 110, "ass");
+   pqueue_push(z, 120, "cat");
+   pqueue_push(z, 130, "cod");
+   pqueue_push(z, 140, "cow");
+   pqueue_push(z, 150, "dog");
+   pqueue_push(z, 160, "eel");
+   pqueue_push(z, 170, "elk");
+   pqueue_push(z, 180, "emu");
+   pqueue_push(z, 190, "fly");
+   pqueue_push(z, 200, "fox");
+   pqueue_push(z, 210, "gnu");
+   pqueue_push(z, 220, "jay");
+   pqueue_push(z, 230, "owl");
+   pqueue_push(z, 240, "pig");
+   pqueue_push(z, 250, "pug");
+   pqueue_push(z, 260, "rat");
+   pqueue_push(z, 270, "yak");
+
+   pqueue_pop_min(z, &priority, (void **) &animal);
+   ASSERT("Testing priority", _two_doubles_equal(100, priority));
+   ASSERT_STRING_EQUALS("ant", animal);
+   pqueue_pop_min(z, &priority, (void **) &animal);
+   ASSERT("Testing priority", _two_doubles_equal(110, priority));
+   ASSERT_STRING_EQUALS("ass", animal);
+
+   while (pqueue_pop_min(z, &priority, (void **) &animal)) {
+   }
+
+   pqueue_free(&z);
+   ASSERT_EQUALS(NULL, z);
+}
+
+static void
+test_pop_with_null(void)
+{
+   struct pqueue *z;
+
+   _printf_test_name("test_pop_with_null", "pqueue_pop, pqueue_pop_min");
+
+   z = pqueue_new();
+
+   pqueue_push(z, 1.0, "caterpillar");
+   pqueue_push(z, 2.0, "butterfly");
+   ASSERT_EQUALS(0, pqueue_is_empty(z));
+   pqueue_pop(z, NULL, NULL);
+   pqueue_pop(z, NULL, NULL);
+   ASSERT_EQUALS(1, pqueue_is_empty(z));
+
+   pqueue_push(z, 1.0, "caterpillar");
+   pqueue_push(z, 2.0, "butterfly");
+   ASSERT_EQUALS(0, pqueue_is_empty(z));
+   pqueue_pop_min(z, NULL, NULL);
+   pqueue_pop_min(z, NULL, NULL);
+   ASSERT_EQUALS(1, pqueue_is_empty(z));
+
+   pqueue_free(&z);
+   ASSERT_EQUALS(NULL, z);
+}
+
 #if 0                                            /* 15 yy */
 static void
 test_stub(void)
@@ -200,7 +270,7 @@ test_stub(void)
    ASSERT("Here's a test ...", _two_doubles_equal(x, 1.23));
 
    pqueue_free(&z);
-   ASSERT_EQUALS(NUL, z);
+   ASSERT_EQUALS(NULL, z);
 }
 #endif
 
@@ -214,6 +284,8 @@ main(void)
    RUN(test_push_pop_1);
    RUN(test_push_pop_2);
    RUN(test_free);
+   RUN(test_pop_min);
+   RUN(test_pop_with_null);
 
    return TEST_REPORT();
 }
