@@ -1,7 +1,7 @@
 /**
  *  @file pqueue.h
  *  @version 0.3.1-dev0
- *  @date Thu Dec 26 13:10:39 CST 2019
+ *  @date Wed Jan  1 17:22:11 CST 2020
  *  @copyright %COPYRIGHT%
  *  @brief Provides a priority queue.
  */
@@ -50,8 +50,8 @@ int         pqueue_is_empty(struct pqueue *p);
  *  @brief Peek at the next value to pop.
  *  @details Return the priority and value of the next value pqueue_pop() will
  *  produce without actually popping from the queue.
- *  @param[out] priority. Next priority.
- *  @param[out] x. Next value.
+ *  @param[out] priority. Next priority if not called with NULL.
+ *  @param[out] x. Next value if not called with NULL.
  *  @returns 0 if there is nothing to pop, 1 otherwise.
  */
 int         pqueue_peek(struct pqueue *p, double *priority, void **x);
@@ -59,11 +59,21 @@ int         pqueue_peek(struct pqueue *p, double *priority, void **x);
 /**
  *  @brief Pop the next value in the queue.
  *  @details Pop the queue, returning the next priority and value.
- *  @param[out] priority. Next priority.
- *  @param[out] x. Next value.
+ *  @param[out] priority. Next priority if not called with NULL.
+ *  @param[out] x. Next value if not called with NULL.
  *  @returns 0 if nothing was popped, 1 otherwise.
  */
 int         pqueue_pop(struct pqueue *p, double *priority, void **x);
+
+/**
+ *  @brief Pop the smallest value in the queue.
+ *  @details Pop the smallest value in the queue, returning its priority and
+      value.
+ *  @param[out] priority. Popped priority if not called with NULL.
+ *  @param[out] x. Popped value if not called with NULL.
+ *  @returns 0 if nothing was popped, 1 otherwise.
+ */
+int         pqueue_pop_min(struct pqueue *p, double *priority, void **x);
 
 /**
  *  @brief Push  onto the queue.

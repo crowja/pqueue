@@ -1,7 +1,7 @@
 /**
  *  @file pqueue.c
  *  @version 0.3.1-dev0
- *  @date Thu Dec 26 13:10:39 CST 2019
+ *  @date Wed Jan  1 17:22:11 CST 2020
  *  @copyright %COPYRIGHT%
  *  @brief FIXME
  *  @details FIXME
@@ -100,8 +100,11 @@ pqueue_peek(struct pqueue *p, double *priority, void **x)
    if (_IS_NULL(p->head))
       return 0;
 
-   *priority = p->head->priority;
-   *x = p->head->x;
+   if (!_IS_NULL(priority))
+      *priority = p->head->priority;
+
+   if (!_IS_NULL(x))
+      *x = p->head->x;
 
    return 1;
 }
@@ -114,8 +117,10 @@ pqueue_pop(struct pqueue *p, double *priority, void **x)
 
    else {
       struct pqnode *tmp = p->head->next;
-      *priority = p->head->priority;
-      *x = p->head->x;
+      if (!_IS_NULL(priority))
+         *priority = p->head->priority;
+      if (!_IS_NULL(x))
+         *x = p->head->x;
       pqnode_free(&(p->head));
       p->head = tmp;
       return 1;
@@ -123,16 +128,42 @@ pqueue_pop(struct pqueue *p, double *priority, void **x)
 }
 
 int
+pqueue_pop_min(struct pqueue *p, double *priority, void **x)
+{
+   if (_IS_NULL(p->head))
+      return 0;
+
+   else if (_IS_NULL(p->head->next)) {
+      if (!_IS_NULL(priority))
+         *priority = p->head->priority;
+      if (!_IS_NULL(x))
+         *x = p->head->x;
+      pqnode_free(&(p->head));
+      p->head = NULL;
+   }
+
+   else {
+      struct pqnode *tmp = p->head;         /* find penultimate node */
+      while (!_IS_NULL(tmp->next->next))
+         tmp = tmp->next;
+      if (!_IS_NULL(priority))
+         *priority = tmp->next->priority;
+      if (!_IS_NULL(x))
+         *x = tmp->next->x;
+      pqnode_free(&(tmp->next));
+      tmp->next = NULL;
+   }
+   return 1;
+}
+
+int
 pqueue_push(struct pqueue *p, double priority, void *x)
 {
    struct pqnode *n = pqnode_new(priority, x);
-
    if (_IS_NULL(n))                              /* failed to allocate new node */
       return 1;
-
    if (_IS_NULL(p->head))                        /* list is empty */
       p->head = n;
-
    else if (n->priority > p->head->priority) {   /* insert n at list head */
       n->next = p->head;
       p->head = n;
@@ -145,7 +176,6 @@ pqueue_push(struct pqueue *p, double priority, void *x)
             break;
          else
             tmp = tmp->next;
-
       n->next = tmp->next;
       tmp->next = n;
    }
