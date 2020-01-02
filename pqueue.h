@@ -2,7 +2,8 @@
  *  @file pqueue.h
  *  @version 0.3.1
  *  @date Wed Jan  1 17:22:11 CST 2020
- *  @copyright %COPYRIGHT%
+ *  @copyright 2020 John A. Crow <crowja@gmail.com>
+ *  @license Unlicense <http://unlicense.org/>
  *  @brief Provides a priority queue.
  */
 
