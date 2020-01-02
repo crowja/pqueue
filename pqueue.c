@@ -160,10 +160,13 @@ int
 pqueue_push(struct pqueue *p, double priority, void *x)
 {
    struct pqnode *n = pqnode_new(priority, x);
+
    if (_IS_NULL(n))                              /* failed to allocate new node */
       return 1;
+
    if (_IS_NULL(p->head))                        /* list is empty */
       p->head = n;
+
    else if (n->priority > p->head->priority) {   /* insert n at list head */
       n->next = p->head;
       p->head = n;
