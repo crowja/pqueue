@@ -257,11 +257,11 @@ test_pop_with_null(void)
 }
 
 static void
-test_len(void)
+test_len_1(void)
 {
    struct pqueue *z;
 
-   _printf_test_name("test_len", "pqueue_len, pqueue_push, pqueue_pop");
+   _printf_test_name("test_len_1", "pqueue_len, pqueue_push, pqueue_pop");
 
    z = pqueue_new();
    ASSERT_EQUALS(0, pqueue_len(z));
@@ -278,6 +278,33 @@ test_len(void)
    pqueue_pop(z, NULL, NULL);
    ASSERT_EQUALS(0, pqueue_len(z));
 
+   pqueue_pop(z, NULL, NULL);
+   ASSERT_EQUALS(0, pqueue_len(z));
+
+   pqueue_free(&z);
+   ASSERT_EQUALS(NULL, z);
+}
+
+static void
+test_len_2(void)
+{
+   struct pqueue *z;
+   int         i;
+
+   _printf_test_name("test_len_2", "pqueue_len, pqueue_push, pqueue_pop");
+
+   z = pqueue_new();
+   ASSERT_EQUALS(0, pqueue_len(z));
+
+   for (i = 1; i < 100; i++) {
+      pqueue_push(z, 1.0, "caterpillar");
+      ASSERT_EQUALS(i, pqueue_len(z));
+   }
+
+   for (i = 98; i >= 0; i--) {
+      pqueue_pop(z, NULL, NULL);
+      ASSERT_EQUALS(i, pqueue_len(z));
+   }
    pqueue_pop(z, NULL, NULL);
    ASSERT_EQUALS(0, pqueue_len(z));
 
@@ -315,7 +342,8 @@ main(void)
    RUN(test_free);
    RUN(test_pop_min);
    RUN(test_pop_with_null);
-   RUN(test_len);
+   RUN(test_len_1);
+   RUN(test_len_2);
 
    return TEST_REPORT();
 }
