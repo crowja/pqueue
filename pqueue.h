@@ -1,6 +1,6 @@
 /**
  *  @file pqueue.h
- *  @version 0.3.1
+ *  @version 0.3.2-dev0
  *  @date Fri Feb  7 21:58:52 CST 2020
  *  @copyright 2020 John A. Crow <crowja@gmail.com>
  *  @license Unlicense <http://unlicense.org/>
