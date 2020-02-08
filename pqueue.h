@@ -1,7 +1,7 @@
 /**
  *  @file pqueue.h
  *  @version 0.3.1
- *  @date Wed Jan  1 20:52:06 CST 2020
+ *  @date Fri Feb  7 21:58:52 CST 2020
  *  @copyright 2020 John A. Crow <crowja@gmail.com>
  *  @license Unlicense <http://unlicense.org/>
  *  @brief Provides a priority queue.
@@ -46,6 +46,13 @@ const char *pqueue_version(void);
  *  @returns 1 if empty, 0 otherwise.
  */
 int         pqueue_is_empty(struct pqueue *p);
+
+/**
+ *  @brief Get the length of the priority queue.
+ *  @returns Length of the internal priority queue.
+ */
+int         pqueue_len(struct pqueue *p);
+
 
 /**
  *  @brief Peek at the next value to pop.

@@ -1,7 +1,7 @@
 /**
  *  @file pqueue.c
  *  @version 0.3.1
- *  @date Wed Jan  1 20:52:06 CST 2020
+ *  @date Fri Feb  7 21:58:52 CST 2020
  *  @copyright 2020 John A. Crow <crowja@gmail.com>
  *  @license Unlicense <http://unlicense.org/>
  */
@@ -51,6 +51,7 @@ pqnode_free(struct pqnode **pp)
 struct pqueue {
    void       *x;
    struct pqnode *head;
+   int         len;
 };
 
 struct pqueue *
@@ -63,6 +64,7 @@ pqueue_new(void)
       return NULL;
 
    tp->head = NULL;
+   tp->len = 0;                                  /* redundant, a shortcut */
 
    return tp;
 }
@@ -94,6 +96,12 @@ pqueue_is_empty(struct pqueue *p)
 }
 
 int
+pqueue_len(struct pqueue *p)
+{
+   return _IS_NULL(p->head) ? 0 : p->len;
+}
+
+int
 pqueue_peek(struct pqueue *p, double *priority, void **x)
 {
    if (_IS_NULL(p->head))
@@ -122,6 +130,7 @@ pqueue_pop(struct pqueue *p, double *priority, void **x)
          *x = p->head->x;
       pqnode_free(&(p->head));
       p->head = tmp;
+      p->len--;
       return 1;
    }
 }
@@ -152,6 +161,9 @@ pqueue_pop_min(struct pqueue *p, double *priority, void **x)
       pqnode_free(&(tmp->next));
       tmp->next = NULL;
    }
+
+   p->len--;
+
    return 1;
 }
 
@@ -181,6 +193,8 @@ pqueue_push(struct pqueue *p, double priority, void *x)
       n->next = tmp->next;
       tmp->next = n;
    }
+
+   p->len++;
 
    return 0;
 }
