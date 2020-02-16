@@ -1,8 +1,8 @@
 /**
  *  @file pqueue.c
  *  @version 0.3.2-dev0
- *  @date Fri Feb  7 22:21:54 CST 2020
- *  @copyright 2020 John A. Crow <crowja@gmail.com>
+ *  @date Sun Feb 16, 2020 03:44:49 PM CST
+ *  @copyright 2019-2020 John A. Crow <crowja@gmail.com>
  *  @license Unlicense <http://unlicense.org/>
  */
 
@@ -10,15 +10,15 @@
 #include <stdio.h>
 #include "pqueue.h"
 
-#ifdef  _IS_NULL
-#undef  _IS_NULL
+#ifdef  IS_NULL
+#undef  IS_NULL
 #endif
-#define _IS_NULL(p)   ((NULL == (p)) ? (1) : (0))
+#define IS_NULL(p)   ((NULL == (p)) ? (1) : (0))
 
-#ifdef  _FREE
-#undef  _FREE
+#ifdef  FREE
+#undef  FREE
 #endif
-#define _FREE(p)      ((NULL == (p)) ? (0) : (free((p)), (p) = NULL))
+#define FREE(p)      ((NULL == (p)) ? (0) : (free((p)), (p) = NULL))
 
 struct pqnode {
    double      priority;
@@ -31,7 +31,7 @@ pqnode_new(double priority, void *x)
 {
    struct pqnode *tp = (struct pqnode *) malloc(sizeof(struct pqnode));
 
-   if (_IS_NULL(tp))
+   if (IS_NULL(tp))
       return NULL;
 
    tp->priority = priority;
@@ -44,7 +44,7 @@ pqnode_new(double priority, void *x)
 static void
 pqnode_free(struct pqnode **pp)
 {
-   _FREE(*pp);
+   FREE(*pp);
    *pp = NULL;
 }
 
@@ -60,7 +60,7 @@ pqueue_new(void)
    struct pqueue *tp;
 
    tp = (struct pqueue *) malloc(sizeof(struct pqueue));
-   if (_IS_NULL(tp))
+   if (IS_NULL(tp))
       return NULL;
 
    tp->head = NULL;
@@ -73,13 +73,13 @@ void
 pqueue_free(struct pqueue **pp)
 {
 
-   while (!_IS_NULL((*pp)->head)) {
+   while (!IS_NULL((*pp)->head)) {
       struct pqnode *tmp = (*pp)->head->next;
       pqnode_free(&((*pp)->head));
       (*pp)->head = tmp;
    }
 
-   _FREE(*pp);
+   FREE(*pp);
    *pp = NULL;
 }
 
@@ -92,25 +92,25 @@ pqueue_version(void)
 int
 pqueue_is_empty(struct pqueue *p)
 {
-   return _IS_NULL(p->head) ? 1 : 0;
+   return IS_NULL(p->head) ? 1 : 0;
 }
 
 int
 pqueue_len(struct pqueue *p)
 {
-   return _IS_NULL(p->head) ? 0 : p->len;
+   return IS_NULL(p->head) ? 0 : p->len;
 }
 
 int
 pqueue_peek(struct pqueue *p, double *priority, void **x)
 {
-   if (_IS_NULL(p->head))
+   if (IS_NULL(p->head))
       return 0;
 
-   if (!_IS_NULL(priority))
+   if (!IS_NULL(priority))
       *priority = p->head->priority;
 
-   if (!_IS_NULL(x))
+   if (!IS_NULL(x))
       *x = p->head->x;
 
    return 1;
@@ -119,14 +119,14 @@ pqueue_peek(struct pqueue *p, double *priority, void **x)
 int
 pqueue_pop(struct pqueue *p, double *priority, void **x)
 {
-   if (_IS_NULL(p->head))
+   if (IS_NULL(p->head))
       return 0;
 
    else {
       struct pqnode *tmp = p->head->next;
-      if (!_IS_NULL(priority))
+      if (!IS_NULL(priority))
          *priority = p->head->priority;
-      if (!_IS_NULL(x))
+      if (!IS_NULL(x))
          *x = p->head->x;
       pqnode_free(&(p->head));
       p->head = tmp;
@@ -138,13 +138,13 @@ pqueue_pop(struct pqueue *p, double *priority, void **x)
 int
 pqueue_pop_min(struct pqueue *p, double *priority, void **x)
 {
-   if (_IS_NULL(p->head))
+   if (IS_NULL(p->head))
       return 0;
 
-   else if (_IS_NULL(p->head->next)) {
-      if (!_IS_NULL(priority))
+   else if (IS_NULL(p->head->next)) {
+      if (!IS_NULL(priority))
          *priority = p->head->priority;
-      if (!_IS_NULL(x))
+      if (!IS_NULL(x))
          *x = p->head->x;
       pqnode_free(&(p->head));
       p->head = NULL;
@@ -152,11 +152,11 @@ pqueue_pop_min(struct pqueue *p, double *priority, void **x)
 
    else {
       struct pqnode *tmp = p->head;         /* find penultimate node */
-      while (!_IS_NULL(tmp->next->next))
+      while (!IS_NULL(tmp->next->next))
          tmp = tmp->next;
-      if (!_IS_NULL(priority))
+      if (!IS_NULL(priority))
          *priority = tmp->next->priority;
-      if (!_IS_NULL(x))
+      if (!IS_NULL(x))
          *x = tmp->next->x;
       pqnode_free(&(tmp->next));
       tmp->next = NULL;
@@ -172,10 +172,10 @@ pqueue_push(struct pqueue *p, double priority, void *x)
 {
    struct pqnode *n = pqnode_new(priority, x);
 
-   if (_IS_NULL(n))                              /* failed to allocate new node */
+   if (IS_NULL(n))                               /* failed to allocate new node */
       return 1;
 
-   if (_IS_NULL(p->head))                        /* list is empty */
+   if (IS_NULL(p->head))                         /* list is empty */
       p->head = n;
 
    else if (n->priority > p->head->priority) {   /* insert n at list head */
@@ -185,7 +185,7 @@ pqueue_push(struct pqueue *p, double priority, void *x)
 
    else {                                        /* traverse the list */
       struct pqnode *tmp = p->head;
-      while (!_IS_NULL(tmp->next))
+      while (!IS_NULL(tmp->next))
          if (n->priority > tmp->next->priority)  /* insert n between current tmp and its tmp->next */
             break;
          else
@@ -199,5 +199,5 @@ pqueue_push(struct pqueue *p, double priority, void *x)
    return 0;
 }
 
-#undef  _IS_NULL
-#undef  _FREE
+#undef  IS_NULL
+#undef  FREE

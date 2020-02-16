@@ -6,36 +6,36 @@
 #include "pqueue.h"
 #include "t/tinytest.h"
 
-#ifdef  _COLOR_CODE
-#undef  _COLOR_CODE
+#ifdef  COLOR_CODE
+#undef  COLOR_CODE
 #endif
-#define _COLOR_CODE       0x1B
+#define COLOR_CODE       0x1B
 
-#ifdef  _COLOR_RED
-#undef  _COLOR_RED
+#ifdef  COLOR_RED
+#undef  COLOR_RED
 #endif
-#define _COLOR_RED        "[1;31m"
+#define COLOR_RED        "[1;31m"
 
-#ifdef  _COLOR_GREEN
-#undef  _COLOR_GREEN
+#ifdef  COLOR_GREEN
+#undef  COLOR_GREEN
 #endif
-#define _COLOR_GREEN      "[1;32m"
+#define COLOR_GREEN      "[1;32m"
 
-#ifdef  _COLOR_YELLOW
-#undef  _COLOR_YELLOW
+#ifdef  COLOR_YELLOW
+#undef  COLOR_YELLOW
 #endif
-#define _COLOR_YELLOW     "[1;33m"
+#define COLOR_YELLOW     "[1;33m"
 
-#ifdef  _COLOR_RESET
-#undef  _COLOR_RESET
+#ifdef  COLOR_RESET
+#undef  COLOR_RESET
 #endif
-#define _COLOR_RESET      "[0m"
+#define COLOR_RESET      "[0m"
 
 
 static void
-_printf_test_name(char *name, char *info)
+printf_test_name(char *name, char *info)
 {
-   printf("%c%s%s%c%s", _COLOR_CODE, _COLOR_YELLOW, name, _COLOR_CODE, _COLOR_RESET);
+   printf("%c%s%s%c%s", COLOR_CODE, COLOR_YELLOW, name, COLOR_CODE, COLOR_RESET);
 
    if (NULL != info)
       printf(" [%s]\n", info);
@@ -45,7 +45,7 @@ _printf_test_name(char *name, char *info)
 
 
 static int
-_two_doubles_equal(double x, double y)
+two_doubles_equal(double x, double y)
 {
    double      t = fabs(x) + fabs(y);
    return fabs(x - y) < 4 * DBL_EPSILON * t ? 1 : 0;
@@ -57,7 +57,7 @@ test_constr(void)
 {
    struct pqueue *z;
 
-   _printf_test_name("test_constr()", "pqueue_new, pqueue_free");
+   printf_test_name("test_constr()", "pqueue_new, pqueue_free");
 
    z = pqueue_new();
    ASSERT("Constructor test", z);
@@ -75,7 +75,7 @@ test_push_pop_1(void)
    double     *xp;
    struct pqueue *z;
 
-   _printf_test_name("test_push_pop_1", "pqueue_push, pqueue_pop");
+   printf_test_name("test_push_pop_1", "pqueue_push, pqueue_pop");
 
    z = pqueue_new();
 
@@ -106,7 +106,7 @@ test_push_pop_2(void)
    double      priority;
    struct pqueue *z;
 
-   _printf_test_name("test_push_pop_2", "pqueue_push, pqueue_pop");
+   printf_test_name("test_push_pop_2", "pqueue_push, pqueue_pop");
 
    z = pqueue_new();
    pqueue_push(z, 1.0, "ant");
@@ -175,7 +175,7 @@ test_free(void)
 {
    struct pqueue *z;
 
-   _printf_test_name("test_free", "pqueue_free");
+   printf_test_name("test_free", "pqueue_free");
 
    z = pqueue_new();
 
@@ -192,7 +192,7 @@ test_pop_min(void)
    char       *animal;
    double      priority;
    struct pqueue *z;
-   _printf_test_name("test_pop_min", "pqueue_pop_min");
+   printf_test_name("test_pop_min", "pqueue_pop_min");
 
    z = pqueue_new();
 
@@ -216,10 +216,10 @@ test_pop_min(void)
    pqueue_push(z, 270, "yak");
 
    pqueue_pop_min(z, &priority, (void **) &animal);
-   ASSERT("Testing priority", _two_doubles_equal(100, priority));
+   ASSERT("Testing priority", two_doubles_equal(100, priority));
    ASSERT_STRING_EQUALS("ant", animal);
    pqueue_pop_min(z, &priority, (void **) &animal);
-   ASSERT("Testing priority", _two_doubles_equal(110, priority));
+   ASSERT("Testing priority", two_doubles_equal(110, priority));
    ASSERT_STRING_EQUALS("ass", animal);
 
    while (pqueue_pop_min(z, &priority, (void **) &animal)) {
@@ -234,7 +234,7 @@ test_pop_with_null(void)
 {
    struct pqueue *z;
 
-   _printf_test_name("test_pop_with_null", "pqueue_pop, pqueue_pop_min");
+   printf_test_name("test_pop_with_null", "pqueue_pop, pqueue_pop_min");
 
    z = pqueue_new();
 
@@ -261,7 +261,7 @@ test_len_1(void)
 {
    struct pqueue *z;
 
-   _printf_test_name("test_len_1", "pqueue_len, pqueue_push, pqueue_pop");
+   printf_test_name("test_len_1", "pqueue_len, pqueue_push, pqueue_pop");
 
    z = pqueue_new();
    ASSERT_EQUALS(0, pqueue_len(z));
@@ -291,7 +291,7 @@ test_len_2(void)
    struct pqueue *z;
    int         i;
 
-   _printf_test_name("test_len_2", "pqueue_len, pqueue_push, pqueue_pop");
+   printf_test_name("test_len_2", "pqueue_len, pqueue_push, pqueue_pop");
 
    z = pqueue_new();
    ASSERT_EQUALS(0, pqueue_len(z));
@@ -319,11 +319,11 @@ test_stub(void)
    struct pqueue *z;
    double      x = 1.23;                    /* TODO */
 
-   _printf_test_name("test_stub()", NULL);
+   printf_test_name("test_stub()", NULL);
 
    z = pqueue_new();
    ASSERT("Constructor test, pt 1", z);
-   ASSERT("Here's a test ...", _two_doubles_equal(x, 1.23));
+   ASSERT("Here's a test ...", two_doubles_equal(x, 1.23));
 
    pqueue_free(&z);
    ASSERT_EQUALS(NULL, z);

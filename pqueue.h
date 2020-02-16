@@ -1,19 +1,14 @@
 /**
  *  @file pqueue.h
  *  @version 0.3.2-dev0
- *  @date Fri Feb  7 22:21:54 CST 2020
- *  @copyright 2020 John A. Crow <crowja@gmail.com>
+ *  @date Sun Feb 16, 2020 03:44:49 PM CST
+ *  @copyright 2019-2020 John A. Crow <crowja@gmail.com>
  *  @license Unlicense <http://unlicense.org/>
  *  @brief Provides a priority queue.
  */
 
-#ifndef _PQUEUE_H_
-#define _PQUEUE_H_
-
-#ifdef  _PACKAGE_NAME
-#undef  _PACKAGE_NAME
-#endif
-#define _PACKAGE_NAME "pqueue"
+#ifndef PQUEUE_H
+#define PQUEUE_H
 
 struct pqueue;
 
